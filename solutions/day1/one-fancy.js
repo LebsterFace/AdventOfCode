@@ -4,7 +4,7 @@ process.chdir(__dirname);
 const {increaseCount} = fs
 	.readFileSync("input.txt", "utf-8")
 	.split(/\n/g)
-	.map(str => parseInt(str))
+	.map(Number)
 	.reduce(({last, increaseCount}, current) => ({
 		last: current,
 		increaseCount: increaseCount + (current > last ? 1 : 0)

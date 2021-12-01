@@ -4,7 +4,7 @@ process.chdir(__dirname);
 const {increaseCount} = fs
 	.readFileSync("input.txt", "utf-8")
 	.split(/\n/g)
-	.map(str => parseInt(str))
+	.map(Number)
 	.reduce((result, first, i, input) => {
 	if (i >= input.length - 2) return result; // Stop when there aren't enough left to create a new three-measurement sum.
 
