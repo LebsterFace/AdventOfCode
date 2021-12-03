@@ -14,8 +14,8 @@ const bitInfo = (array, i) => {
 	}
 
 	return {
-		mostCommon: n === 0 ? "?" : n < 0 ? "0" : "1",
-		leastCommon: n === 0 ? "?" : n < 0 ? "1" : "0"
+		mostCommon:  n < 0 ? "0" : "1",
+		leastCommon: n < 0 ? "1" : "0"
 	};
 };
 
@@ -35,6 +35,6 @@ const gamma = Array.from({length}, (_, i) => bitInfo(input, i).mostCommon).join(
 const epsilon = Array.from({length}, (_, i) => bitInfo(input, i).leastCommon).join("");
 console.log("One:", parseInt(gamma, 2) * parseInt(epsilon, 2));
 
-const oxygen = filter((bit, {mostCommon}) => (mostCommon === "?" ? bit === "1" : bit === mostCommon));
-const carbon = filter((bit, {leastCommon}) => (leastCommon === "?" ? bit === "0" : bit === leastCommon));
+const oxygen = filter((bit, {mostCommon}) => bit === mostCommon);
+const carbon = filter((bit, {leastCommon}) => bit === leastCommon);
 console.log("Two:", parseInt(oxygen, 2) * parseInt(carbon, 2));
