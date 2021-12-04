@@ -7,7 +7,7 @@ const input = require("fs")
 
 /** @type {number[]} */
 const numbers = input.splice(0, 2)[0].split(",").map(Number);
-/** @type {number[][]} */
+/** @type {number[][][]} */
 const boards = input.reduce((acc, line) => {
 	if (line.length === 0) {
 		acc.push([]);
