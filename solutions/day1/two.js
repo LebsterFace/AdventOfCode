@@ -1,6 +1,9 @@
-const fs = require("fs");
 process.chdir(__dirname);
-const input = fs.readFileSync("./input.txt", "utf-8").split(/\n/g).map(str => parseInt(str));
+const input = require("fs")
+	.readFileSync("./input.txt", "utf-8")
+	.trim()
+	.split("\r\n")
+	.map(str => parseInt(str));
 
 const sums = [];
 for (let i = 0; i < input.length - 2; i++) {

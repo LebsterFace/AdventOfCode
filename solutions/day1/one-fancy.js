@@ -1,9 +1,9 @@
-const fs = require("fs");
 process.chdir(__dirname);
 
-const {increaseCount} = fs
-	.readFileSync("input.txt", "utf-8")
-	.split(/\n/g)
+const {increaseCount} =require("fs")
+	.readFileSync("./input.txt", "utf-8")
+	.trim()
+	.split("\r\n")
 	.map(Number)
 	.reduce(({last, increaseCount}, current) => ({
 		last: current,

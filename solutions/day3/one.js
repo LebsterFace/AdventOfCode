@@ -2,7 +2,8 @@ process.chdir(__dirname);
 
 const input = require("fs")
 	.readFileSync("./input.txt", "utf-8")
-	.split(/\r?\n/g);
+	.trim()
+	.split("\r\n");
 
 // Positive = More 1s than 0s
 // Negative = More 0s than 1s

@@ -1,7 +1,8 @@
 process.chdir(__dirname);
 const input = require("fs")
 	.readFileSync("./input.txt", "utf-8")
-	.split(/\r?\n/g);
+	.trim()
+	.split("\r\n");
 
 const length = 12;
 

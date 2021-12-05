@@ -3,7 +3,7 @@ process.chdir(__dirname);
 const input = require("fs")
 	.readFileSync("./input.txt", "utf-8")
 	.trim()
-	.split(/\r?\n/);
+	.split("\r\n");
 
 /** @type {number[]} */
 const numbers = input.splice(0, 2)[0].split(",").map(Number);

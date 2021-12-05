@@ -2,7 +2,8 @@ process.chdir(__dirname);
 
 const input = require("fs")
 	.readFileSync("./input.txt", "utf-8")
-	.split("\n")
+	.trim()
+	.split("\r\n")
 	.map(v => v.split(" "));
 
 let y = 0,
