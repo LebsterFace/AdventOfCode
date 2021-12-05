@@ -47,5 +47,4 @@ for (const [{x: x1, y: y1}, {x: x2, y: y2}] of input) {
 	}
 }
 
-const result = Object.entries(counts).filter(([k, v]) => v > 1).length;
-console.log(result);
+console.log(Object.values(counts).filter(v => v > 1).length);

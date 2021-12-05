@@ -19,9 +19,8 @@ const input = require("fs")
 	.trim()
 	.split("\r\n");
 
-const points = new Set();
-const doublePoints = new Set();
-
+	
+const counts = {};
 for (const line of input) {
 	const {x1, y1, x2, y2} = lineToPoints(line);
 
@@ -33,10 +32,11 @@ for (const line of input) {
 
 	while (xi !== x2 + changeX || yi !== y2 + changeY) {
 		const p = xi + "," + yi;
-		if (points.has(p)) {
-			doublePoints.add(p);
+
+		if (p in counts) {
+			counts[p] += 1;
 		} else {
-			points.add(p);
+			counts[p] = 1;
 		}
 
 		xi += changeX;
@@ -44,4 +44,4 @@ for (const line of input) {
 	}
 }
 
-console.log(doublePoints.size);
+console.log(Object.values(counts).filter(v => v > 1).length);
