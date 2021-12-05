@@ -1,15 +1,23 @@
 process.chdir(__dirname);
 
-const toObj = str => {
-	const [x, y] = str.split(",");
-	return {x: Number(x), y: Number(y)};
-}
+const lineToPoints = line => {
+	// line = "x1,y1 -> x2,y2"
+	const [a, b] = line.split(" -> ");
+	const [x1, y1] = a.split(",");
+	const [x2, y2] = b.split(",");
+
+	return {
+		x1: parseInt(x1),
+		y1: parseInt(y1),
+		x2: parseInt(x2),
+		y2: parseInt(y2),
+	};
+};
 
 const input = require("fs")
 	.readFileSync("./input.txt", "utf-8")
 	.trim()
-	.split("\r\n")
-	.map(line => line.split(" -> ").map(toObj));
+	.split("\r\n");
 
 const between = (a, b) => {
 	if (a === b) return [];
@@ -26,17 +34,21 @@ const between = (a, b) => {
 	}
 
 	return result;
-}
+};
 
 const counts = {};
-for (const [{x: x1, y: y1}, {x: x2, y: y2}] of input) {
-	// For now, only consider horizontal and vertical lines:
-	// lines where either x1 = x2 or y1 = y2.
+for (const line of input) {
+	const { x1, y1, x2, y2 } = lineToPoints(line);
+
+	// Only consider horizontal and vertical lines
 	if (x1 !== x2 && y1 !== y2) continue;
-	
+
 	let points;
-	if (x1 === x2) points = between(y1, y2).map(y => x1 + "," + y);
-	else points = between(x1, x2).map(x => x + "," + y1);
+	if (x1 === x2) {
+		points = between(y1, y2).map(y => x1 + "," + y);
+	} else {
+		points = between(x1, x2).map(x => x + "," + y1);
+	}
 
 	for (const p of points) {
 		if (p in counts) {
