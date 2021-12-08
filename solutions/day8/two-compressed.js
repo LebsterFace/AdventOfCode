@@ -11,20 +11,6 @@ const input = require("fs")
 		};
 	});
 
-
-const equals = (a, b) => {
-	if (a.length !== b.length) return false;
-
-	const lettersB = new Set([...b]);
-
-	for (const letter of a) {
-		if (!lettersB.has(letter)) return false;
-	}
-
-	return true;
-};
-
-
 const CORRECT_MAPPINGS = {
 	"0": "abcefg",
 	"1": "cf",
@@ -38,8 +24,22 @@ const CORRECT_MAPPINGS = {
 	"9": "abcdfg"
 };
 
-const unique = (a, b) => {
+
+const equals = (a, b) => {
+	if (a.length !== b.length) return false;
+
 	const set = new Set([...b]);
+	for (const letter of a) {
+		if (!set.has(letter)) {
+			return false;
+		}
+	}
+
+	return true;
+};
+
+const unique = (a, ...rest) => {
+	const set = new Set([...rest.join("")]);
 
 	let result = "";
 	for (const signal of a) {
@@ -54,7 +54,7 @@ for (const { output, patterns } of input) {
 	/** @type {{[digit: string]: string}} */
 	const known = {};
 	/** @type {{[digit: string]: string[]}} */
-	const unknown = { "0": [], "2": [], "3": [], "5": [], "6": [], "9": [] };
+	const unknown = { zero: [], two: [], three: [], five: [], six: [], nine: [] };
 
 	for (const pattern of patterns) {
 		switch (pattern.length) {
@@ -68,14 +68,14 @@ for (const { output, patterns } of input) {
 				known.four = pattern;
 				break;
 			case 5:
-				unknown["2"].push(pattern);
-				unknown["3"].push(pattern);
-				unknown["5"].push(pattern);
+				unknown.two.push(pattern);
+				unknown.three.push(pattern);
+				unknown.five.push(pattern);
 				break;
 			case 6:
-				unknown["0"].push(pattern);
-				unknown["6"].push(pattern);
-				unknown["9"].push(pattern);
+				unknown.zero.push(pattern);
+				unknown.six.push(pattern);
+				unknown.nine.push(pattern);
 				break;
 			case 7:
 				known.eight = pattern;
@@ -84,33 +84,31 @@ for (const { output, patterns } of input) {
 	}
 
 	const real = {};
+	known.nine = unknown.nine.find(p => unique(known.four, p).length === 0);
 
 	real.a = unique(known.seven, known.one);
+	real.g = unique(known.nine, known.four, real.a);
+	real.e = unique(known.eight, known.four, real.a, real.g);
 
-	const fourSignals = [...known.four];
-	known.nine = unknown["9"].find(possible => fourSignals.every(s => possible.includes(s)));
-	unknown["6"] = unknown["6"].filter(s => s !== known.nine);
 
-	const fourRegex = new RegExp("[" + known.four + "]", "g");
-	real.g = known.nine.replace(fourRegex, "").replace(real.a, "");
-	real.e = known.eight.replace(fourRegex, "").replace(real.a, "").replace(real.g, "");
-
-	const test = new RegExp("[" + known.one + real.a + real.e + real.g + "]", "g");
-	known.zero = unknown["0"].find(t => t.replace(test, "").length === 1);
-
-	known.six = unknown["6"].find(p => p !== known.zero);
+	known.zero = unknown.zero.find(p => unique(p, known.one, Object.values(real)).length === 1);
+	real.b = unique(known.zero, known.one, Object.values(real));
 	real.d = unique(known.eight, known.zero);
-	real.b = unique(known.four, known.one).replace(real.d, "");
 
-	const knownRegex = new RegExp(Object.values(real).join("|"), "g");
-	real.f = known.six.replace(knownRegex, "");
-	real.c = "abcdefg".replace(knownRegex, "").replace(real.f, "");
+	known.six = unknown.six.find(p => p !== known.nine && p !== known.zero);
+
+	real.f = unique(known.six, Object.values(real));
+	real.c = unique(known.eight, Object.values(real));
 
 	const decoded = output.map(src => {
-		for (const [key, value] of Object.entries(real)) src = src.replace(value, key.toUpperCase());
+		for (const [key, value] of Object.entries(real)) {
+			src = src.replace(value, key.toUpperCase());
+		}
+
 		src = src.toLowerCase();
-		return Object.entries(CORRECT_MAPPINGS).find(([k, v]) => equals(v, src))[0];
-	})
+		return Object.entries(CORRECT_MAPPINGS)
+			.find(([digit, encoding]) => equals(encoding, src))[0];
+	});
 
 	sum += parseInt(decoded.join(""));
 }
