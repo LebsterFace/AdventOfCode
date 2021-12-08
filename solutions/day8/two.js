@@ -218,7 +218,7 @@ const stageTwo = ({ known, unknown }) => {
 	const bd = unique(known.four, known.one);
 	bd.delete(real.d);
 	real.b = [...bd.values()][0];
-	
+
 	// the signal of 6		--> abdfeg
 	// which is not known	--> f
 	const knownRegex = new RegExp(Object.values(real).join("|"), "g")
@@ -233,7 +233,7 @@ const stageTwo = ({ known, unknown }) => {
 		for (const [key, value] of Object.entries(real)) {
 			src = src.replace(value, key.toUpperCase());
 		}
-		
+
 		src = src.toLowerCase();
 		return Object.entries(CORRECT_MAPPINGS).find(([k, v]) => equals(v, src))[0];
 	};

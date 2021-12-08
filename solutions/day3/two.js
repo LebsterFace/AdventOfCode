@@ -27,18 +27,18 @@ const filter = predicate => {
 
 	for (let bitPos = 0; bitPos < LENGTH; bitPos++) {
 		const counts = getCounts(copy);
-	
+
 		for (let i = copy.length - 1; i >= 0; i--) {
 			if (!predicate(copy[i][bitPos], counts[bitPos])) {
 				copy.splice(i, 1);
 			}
-			
+
 			if (copy.length === 1) {
 				return copy[0];
 			}
 		}
 	}
-	
+
 	return null;
 }
 

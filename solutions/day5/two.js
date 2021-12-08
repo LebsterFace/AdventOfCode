@@ -5,7 +5,7 @@ const lineToPoints = line => {
 	const [a, b] = line.split(" -> ");
 	const [x1, y1] = a.split(",");
 	const [x2, y2] = b.split(",");
-	
+
 	return {
 		x1: parseInt(x1),
 		y1: parseInt(y1),
@@ -19,7 +19,7 @@ const input = require("fs")
 	.trim()
 	.split("\r\n");
 
-	
+
 const counts = {};
 for (const line of input) {
 	const {x1, y1, x2, y2} = lineToPoints(line);

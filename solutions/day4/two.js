@@ -14,7 +14,7 @@ const boards = input.reduce((acc, line) => {
 	} else {
 		acc[acc.length - 1].push(line.split(/\s+/).map(Number))
 	}
-	
+
 	return acc;
 }, [[]]);
 

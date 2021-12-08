@@ -14,7 +14,7 @@ const boards = input.reduce((acc, line) => {
 	} else {
 		acc[acc.length - 1].push(line.split(/\s+/).map(Number))
 	}
-	
+
 	return acc;
 }, [[]]);
 
@@ -49,7 +49,7 @@ const getWinningBoard = () => {
 		const winner = boards.find(hasWon);
 		if (winner) return {winner, number};
 	}
-	
+
 	return null;
 };
 
