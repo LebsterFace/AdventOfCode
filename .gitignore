@@ -1,1 +1,4 @@
 User_Account_Proof.txt
+/node_modules
+/package-lock.json
+/package.json
