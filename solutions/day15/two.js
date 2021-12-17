@@ -87,7 +87,7 @@ while (result) {
 	const begin = performance.now();
 	const averageRuntime = RUNTIMES.reduce((sum, current) => sum + current, 0) / RUNTIMES.length;
 	step++;
-	
+
 	const stepsPerMS = 1 / averageRuntime;
 	const fraction = step / max;
 	const stepsRemaining = max - step;
