@@ -58,13 +58,6 @@ export default class Parser {
 		return this.parseNumber(3);
 	}
 
-	parseHeader() {
-		const version = this.parseVersion();
-		const type = this.parseType();
-
-		return { version, type };
-	}
-
 	parseLiteral() {
 		let result = "";
 		let currentGroup: string = "";
@@ -73,7 +66,7 @@ export default class Parser {
 			result += currentGroup.slice(1);
 		} while (currentGroup.charAt(0) === "1");
 
-		return parseInt(result, 2);
+		return { value: parseInt(result, 2) };
 	}
 
 	parseOperator() {
@@ -96,12 +89,10 @@ export default class Parser {
 	}
 
 	parsePacket(): Packet {
-		const header = this.parseHeader();
-		if (header.type === 4) {
-			return { ...header, value: this.parseLiteral() };
-		} else {
-			return { ...header, ...this.parseOperator() };
-		}
+		const version = this.parseVersion();
+		const type = this.parseType();
+		const other = type === 4 ? this.parseLiteral() : this.parseOperator();
+		return { version, type, ...other };
 	}
 
 	getVersionSum() {
