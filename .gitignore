@@ -2,6 +2,7 @@ User_Account_Proof.txt
 node_modules
 **/input.txt
 **/example.txt
+2023/day04/*.js
 2023/day03/*.js
 2023/day02/*.js
 2023/day01/*.js
