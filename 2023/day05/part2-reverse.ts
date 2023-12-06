@@ -9,20 +9,20 @@ type MappingData = {
 	length: number;
 };
 
-const mappingApplies = (d: MappingData, input: number) => {
+const mappingOutputs = (d: MappingData, output: number) => {
 	if (d === undefined) debugger;
-	const start = d.sourceStart;
-	const end = d.sourceStart + d.length - 1;
-	return input >= start && input <= end;
+	const start = d.destStart;
+	const end = d.destStart + d.length - 1;
+	return output >= start && output <= end;
 };
 
-const applyMappingData = (d: MappingData | undefined, input: number) => {
-	if (d !== undefined && mappingApplies(d, input)) {
-		const difference = d.sourceStart - d.destStart;
-		return input - difference;
+const reverseApplyMappingData = (d: MappingData | undefined, output: number) => {
+	if (d !== undefined && mappingOutputs(d, output)) {
+		const difference = d.destStart - d.sourceStart;
+		return output - difference;
 	}
 
-	return input;
+	return output;
 };
 
 const chunkify = <T>(arr: T[], size: number): T[][] => {
@@ -41,21 +41,23 @@ const maps = [...input.matchAll(/(.+?)-to-(.+?) map:((?:\n\d+ \d+ \d+)+)/g)].map
 		return { destStart, sourceStart, length };
 	}));
 
-let lowestLocation = Infinity;
+maps.reverse();
 
-for (const [start, length] of seeds) {
-	for (let seedNumber = start; seedNumber < start + length; seedNumber++) {
-		let current = seedNumber;
-		for (const map of maps) {
-			const relevantMapping = map.find(m => mappingApplies(m, current));
-			const newValue = applyMappingData(relevantMapping, current);
-			current = newValue;
-		}
+let location = 0;
+while (true) {
+	let current = location;
+	for (const map of maps) {
+		const relevantMapping = map.find(m => mappingOutputs(m, current));
+		const newValue = reverseApplyMappingData(relevantMapping, current);
+		current = newValue;
+	}
 
-		if (current < lowestLocation) {
-			lowestLocation = current;
+	for (const [start, length] of seeds) {
+		if (current >= start && current <= start + length + 1) {
+			console.log(location);
+			process.exit(0);
 		}
 	}
-}
 
-console.log(lowestLocation);
+	location++;
+}
