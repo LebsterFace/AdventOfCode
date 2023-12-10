@@ -71,10 +71,6 @@ input[start.y][start.x] = startCell;
 
 type PointString = `${number},${number}`;
 const pointToString = ({ x, y }: Point): PointString => `${x},${y}`;
-const stringToPoint = (s: PointString): Point => {
-	const [x, y] = s.split(",").map(Number);
-	return { x, y };
-};
 
 const loop = new Set<PointString>();
 const queue = [[start]];
