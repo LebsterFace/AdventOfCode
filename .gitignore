@@ -27,3 +27,4 @@ node_modules
 2021/day17/*.js
 2021/day16/*.js
 2021/day15/*.js
+/2023/day12/part2.ts
