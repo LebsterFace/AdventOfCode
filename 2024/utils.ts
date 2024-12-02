@@ -2,6 +2,15 @@ import { readFileSync } from "fs";
 
 export const input = () => readFileSync("./input.txt", "utf-8").trim().replaceAll("\r", "");
 
+export const differences = (array: number[]): number[] => {
+	const result: number[] = [];
+	for (let i = 1; i < array.length; i++) {
+		result.push(array[i] - array[i - 1]);
+	}
+
+	return result;
+};
+
 export function unzip<T>(array: [T, T][]): [T[], T[]];
 export function unzip<T>(array: T[][]): T[][] {
 	const result: T[][] = [];

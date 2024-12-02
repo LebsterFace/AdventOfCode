@@ -1,11 +1,10 @@
-import { input, int } from "../utils.js";
+import { differences, input, int } from "../utils.js";
+const { abs, sign } = Math;
 
-const isSafe = (report: number[]) => report.every((value, i) => {
-	if (i === 0) return true;
-	const change = value - report[i - 1];
-	return Math.abs(change) >= 1 && Math.abs(change) <= 3 &&
-		   Math.sign(change) === Math.sign(report[1] - report[0]);
-});
+const isSafe = (report: number[]) => differences(report).every((change, _, dif) =>
+	abs(change) >= 1 && abs(change) <= 3
+	&& sign(change) === sign(dif[0])
+);
 
 const reports = input().split("\n").map(line => line.split(" ").map(int));
 console.log('Part 1:', reports.filter(isSafe).length);
