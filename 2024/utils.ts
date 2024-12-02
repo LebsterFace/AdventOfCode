@@ -1,3 +1,7 @@
+import { readFileSync } from "fs";
+
+export const input = () => readFileSync("./input.txt", "utf-8").trim().replaceAll("\r", "");
+
 export function unzip<T>(array: [T, T][]): [T[], T[]];
 export function unzip<T>(array: T[][]): T[][] {
 	const result: T[][] = [];
