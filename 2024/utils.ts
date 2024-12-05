@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-export const input = () => readFileSync("./input.txt", "utf-8").trim().replaceAll("\r", "");
+export const input = (filename = "./input.txt") => readFileSync(filename, "utf-8").trim().replaceAll("\r", "");
 
 export const differences = (array: number[]): number[] => {
 	const result: number[] = [];
@@ -54,4 +54,45 @@ export const count = <T>(array: T[], value: T): number => {
 			result++;
 
 	return result;
+};
+
+export const swap = <T extends unknown[]>(array: T, index1: number, index2: number) => {
+	const temp = array[index2];
+	array[index2] = array[index1];
+	array[index1] = temp;
+};
+
+export const buildMap = <K, V>(pairs: [K, V][]): Map<K, V[]> => {
+	const result = new Map<K, V[]>();
+	for (const [k, v] of pairs) {
+		const existing = result.get(k);
+		if (existing) {
+			existing.push(v);
+		} else {
+			result.set(k, [v]);
+		}
+	}
+
+	return result;
+};
+
+export const buildUniqueMap = <K, V>(pairs: [K, V][]): Map<K, V> => {
+	const result = new Map<K, V>();
+	for (const [k, v] of pairs) {
+		if (result.has(k)) {
+			throw new Error("Duplicate key in unique map");
+		} else {
+			result.set(k, v);
+		}
+	}
+
+	return result;
+};
+
+export const comparePosition = <T>(array: T[], a: T, b: T) => {
+	const aIndex = array.indexOf(a);
+	if (aIndex === -1) return 0;
+	const bIndex = array.indexOf(b);
+	if (bIndex === -1) return 0;
+	return aIndex - bIndex;
 };
