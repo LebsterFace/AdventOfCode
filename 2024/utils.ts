@@ -96,3 +96,11 @@ export const comparePosition = <T>(array: T[], a: T, b: T) => {
 	if (bIndex === -1) return 0;
 	return aIndex - bIndex;
 };
+
+export const findInGrid = <T>(grid: T[][], value: T): Array<readonly [number, number]> => grid.flatMap((row, y) =>
+	row.map((cell, x) => [cell, x] as const)
+		.filter(([cell, x]) => cell === value)
+		.map(([cell, x]) => [x, y] as const)
+);
+
+export const pairs = <T>(array: T[]): T[][] => array.flatMap((first, firstIndex) => array.toSpliced(0, firstIndex + 1).map(second => [first, second]));
