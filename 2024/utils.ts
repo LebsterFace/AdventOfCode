@@ -104,3 +104,12 @@ export const findInGrid = <T>(grid: T[][], value: T): Array<readonly [number, nu
 );
 
 export const pairs = <T>(array: T[]): T[][] => array.flatMap((first, firstIndex) => array.toSpliced(0, firstIndex + 1).map(second => [first, second]));
+
+export const chunkify = <T>(arr: T[], size: number): T[][] => {
+	const result = [];
+	for (let i = 0; i < arr.length; i += size) {
+		result.push(arr.slice(i, i + size));
+	}
+
+	return result;
+};
