@@ -113,3 +113,19 @@ export const chunkify = <T>(arr: T[], size: number): T[][] => {
 
 	return result;
 };
+
+export const bounds = <T>(grid: T[][]) => {
+	const y_max = grid.length - 1;
+	const x_max = grid[y_max].length - 1;
+	if (!grid.every(row => row.length === x_max + 1))
+		throw new Error("Irregular grid");
+	return { y_max, x_max };
+};
+
+export const cardinalNeighbours = <T>(x: number, y: number, grid: T[][]) => {
+	return [
+		/*[ x - 1, y - 1 ],*/ [ x, y - 1 ], /*[ x + 1, y - 1 ],*/
+		[ x - 1,   y   ],                     [ x + 1,   y   ],
+		/*[ x - 1, y + 1 ],*/ [ x, y + 1 ], /*[ x + 1, y + 1 ]*/
+	].filter(([x, y]) => y in grid && x in grid[y])
+};
