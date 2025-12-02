@@ -1,4 +1,4 @@
-import { input, int } from "../utils.js";
+import { input, int } from "../../utils.js";
 
 const lines = input().split("\n").map(l => l.split(": ").flatMap(x => x.split(" ")).map(int));
 

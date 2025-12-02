@@ -1,4 +1,4 @@
-import { findInGrid, input, pairs } from "../utils.js";
+import { findInGrid, input, pairs } from "../../utils.js";
 
 const grid = input().split("\n").map(line => line.split(""));
 const y_max = grid.length - 1;

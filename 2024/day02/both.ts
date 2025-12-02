@@ -1,4 +1,4 @@
-import { differences, input, int } from "../utils.js";
+import { differences, input, int } from "../../utils.js";
 const { abs, sign } = Math;
 
 const isSafe = (report: number[]) => differences(report).every((change, _, dif) =>

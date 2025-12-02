@@ -1,4 +1,4 @@
-import { input, int, swap } from "../utils.js";
+import { input, int, swap } from "../../utils.js";
 
 const [rules_i, updates_i] = input().split("\n\n");
 const rules = rules_i.split("\n").map(x => x.split("|").map(int) as [number, number]);

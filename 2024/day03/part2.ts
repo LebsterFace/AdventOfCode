@@ -1,4 +1,4 @@
-import { input, int } from "../utils.js";
+import { input, int } from "../../utils.js";
 
 const instructions = input().match(/do\(\)|don't\(\)|mul\(\d+,\d+\)/g)!;
 let enabled = true;

@@ -1,4 +1,4 @@
-import { bounds, cardinalNeighbours, findInGrid, input, int } from "../utils.js";
+import { bounds, cardinalNeighbours, findInGrid, input, int } from "../../utils.js";
 
 const map = input().split("\n").map(x => x.split("").map(x => x === '.' ? -1 : int(x)));
 

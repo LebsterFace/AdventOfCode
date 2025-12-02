@@ -1,4 +1,4 @@
-import { input, int } from "../utils.js";
+import { input, int } from "../../utils.js";
 
 const isSafe = (report: number[]) => report.every((value, i) => {
 	if (i === 0) return true;

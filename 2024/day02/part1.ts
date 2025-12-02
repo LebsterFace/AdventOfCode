@@ -1,4 +1,4 @@
-import { input, int } from "../utils.js";
+import { input, int } from "../../utils.js";
 
 const reports = input().split("\n").map(line => line.split(" ").map(int));
 const safe_reports = reports.filter(report => report.every((value, i) => {

@@ -1,4 +1,4 @@
-import { input, int, swap } from "../utils.js";
+import { input, int, swap } from "../../utils.js";
 
 const map = input().split("").map(int);
 const disk: number[] = [];

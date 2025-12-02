@@ -1,4 +1,4 @@
-import { count, input, int } from "../utils.js";
+import { count, input, int } from "../../utils.js";
 
 const puzzle = input().split("\n").map(x => x.split(""));
 

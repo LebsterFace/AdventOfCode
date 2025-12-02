@@ -1,4 +1,4 @@
-import { buildMap, comparePosition, input, int, swap } from "../utils.js";
+import { buildMap, comparePosition, input, int, swap } from "../../utils.js";
 
 const [ruleLines, updateLines] = input().split("\n\n").map(s => s.split("\n"));
 const rules = buildMap(ruleLines.map(x => x.split("|").map(int) as [number, number]));

@@ -1,4 +1,4 @@
-import { input } from "../utils.js";
+import { input } from "../../utils.js";
 
 enum Direction { Up = 0, Right, Down, Left };
 const getNext = (x: number, y: number, direction: Direction): [number, number] => {
