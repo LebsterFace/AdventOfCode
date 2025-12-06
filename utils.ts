@@ -129,3 +129,11 @@ export const cardinalNeighbours = <T>(x: number, y: number, grid: T[][]) => {
 		/*[ x - 1, y + 1 ],*/ [ x, y + 1 ], /*[ x + 1, y + 1 ]*/
 	].filter(([x, y]) => y in grid && x in grid[y])
 };
+
+export const neighbours = <T>(x: number, y: number, grid: T[][]) => {
+	return [
+		[ x - 1, y - 1 ], [ x, y - 1 ], [ x + 1, y - 1 ],
+		[ x - 1,   y   ],               [ x + 1,   y   ],
+		[ x - 1, y + 1 ], [ x, y + 1 ], [ x + 1, y + 1 ]
+	].filter(([x, y]) => y in grid && x in grid[y])
+};
