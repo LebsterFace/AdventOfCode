@@ -124,16 +124,42 @@ export const bounds = <T>(grid: T[][]) => {
 
 export const cardinalNeighbours = <T>(x: number, y: number, grid: T[][]) => {
 	return [
-		/*[ x - 1, y - 1 ],*/ [ x, y - 1 ], /*[ x + 1, y - 1 ],*/
-		[ x - 1,   y   ],                     [ x + 1,   y   ],
-		/*[ x - 1, y + 1 ],*/ [ x, y + 1 ], /*[ x + 1, y + 1 ]*/
-	].filter(([x, y]) => y in grid && x in grid[y])
+		/*[ x - 1, y - 1 ],*/[x, y - 1], /*[ x + 1, y - 1 ],*/
+		[x - 1, y], [x + 1, y],
+		/*[ x - 1, y + 1 ],*/[x, y + 1], /*[ x + 1, y + 1 ]*/
+	].filter(([x, y]) => y in grid && x in grid[y]);
 };
 
 export const neighbours = <T>(x: number, y: number, grid: T[][]) => {
 	return [
-		[ x - 1, y - 1 ], [ x, y - 1 ], [ x + 1, y - 1 ],
-		[ x - 1,   y   ],               [ x + 1,   y   ],
-		[ x - 1, y + 1 ], [ x, y + 1 ], [ x + 1, y + 1 ]
-	].filter(([x, y]) => y in grid && x in grid[y])
+		[x - 1, y - 1], [x, y - 1], [x + 1, y - 1],
+		[x - 1, y], [x + 1, y],
+		[x - 1, y + 1], [x, y + 1], [x + 1, y + 1]
+	].filter(([x, y]) => y in grid && x in grid[y]);
 };
+
+export class TwoDimensionalMap<V> {
+	public map = new Map<`${number},${number}`, V>;
+	constructor() { }
+
+	public set(x: number, y: number, value: V): V {
+		this.map.set(`${x},${y}`, value);
+		return value;
+	}
+
+	public get(x: number, y: number) {
+		return this.map.get(`${x},${y}`);
+	}
+
+	public has(x: number, y: number) {
+		return this.map.has(`${x},${y}`);
+	}
+
+	public clear() {
+		return this.map.clear();
+	}
+
+	public get size() {
+		return this.map.size;
+	}
+}
