@@ -1,56 +1,39 @@
 import { input, int } from "../../utils.js";
 
-const distance = (AB) => {
-	const [A, B] = AB.split("-");
-	const [x1, y1, z1] = A.split(",").map(int);
-	const [x2, y2, z2] = B.split(",").map(int);
-	return Math.hypot(x1 - x2, y1 - y2, z1 - z2);
-};
+const distance = ([x1, y1, z1], [x2, y2, z2]) => Math.hypot(x1 - x2, y1 - y2, z1 - z2);
 
-const boxes = input().split("\n");
+const boxes = input()
+	.split("\n")
+	.map(P => P.split(",").map(int));
 
-const pairs = new Set(boxes.flatMap(A => {
+const distances = boxes.flatMap((A, index) => {
 	const result = [];
-	for (const B of boxes) {
-		if (A === B) continue;
-		result.push([A, B].sort().join("-"));
+	for (let i = index + 1; i < boxes.length; i++) {
+		const B = boxes[i];
+		result.push([[A, B], distance(A, B)]);
 	}
 
 	return result;
-}));
+}).sort(([, aDist], [, bDist]) => aDist - bDist)
+	.map(([pair]) => pair);
 
-const distances = Array.from(pairs, (AB) => [AB, distance(AB)])
-	.sort(([, a], [, b]) => a - b)
-	.map(([AB, dist]) => [AB.split("-"), dist]);
+const circuits = boxes.map(b => [b]);
 
-// [start, end][]
-const connections = [];
+let result;
+while (circuits.length !== 1) {
+	const [start, end] = distances.shift();
 
-const circuit = (A) => {
-	// dfs from A
-	const discovered = new Set();
-	const stack = [A];
-	while (stack.length !== 0) {
-		const v = stack.pop();
-		if (!discovered.has(v)) {
-			discovered.add(v);
-			for (const connection of connections.filter(c => c.includes(v))) {
-				stack.push(connection.find(x => x !== v));
-			}
-		}
-	}
+	const startIndex = circuits.findIndex(X => X.includes(start));
+	const endIndex = circuits.findIndex(X => X.includes(end));
 
-	return discovered;
-};
+	const startCircuit = circuits[startIndex];
+	const endCircuit = circuits[endIndex];
 
-while (distances.length > 0) {
-	const [[start, end]] = distances.shift();
-	if (!circuit(start).has(end)) {
-		connections.push([start, end]);
+	if (!startCircuit.includes(end)) {
+		result = start[0] * end[0];
+		startCircuit.push(...endCircuit);
+		circuits.splice(endIndex, 1);
 	}
 }
 
-const [A, B] = connections.at(-1);
-const [x1] = A.split(",").map(int);
-const [x2] = B.split(",").map(int);
-console.log(x1 * x2);
+console.log(result);
