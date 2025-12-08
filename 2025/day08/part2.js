@@ -10,16 +10,16 @@ const distances = boxes.flatMap((A, index) => {
 	const result = [];
 	for (let i = index + 1; i < boxes.length; i++) {
 		const B = boxes[i];
-		result.push([[A, B], distance(A, B)]);
+		result.push([[index, i], distance(A, B)]);
 	}
 
 	return result;
 }).sort(([, aDist], [, bDist]) => aDist - bDist)
 	.map(([pair]) => pair);
 
-const circuits = boxes.map(b => [b]);
+const circuits = boxes.map((b, i) => [i]);
 
-let result;
+let a, b;
 while (circuits.length !== 1) {
 	const [start, end] = distances.shift();
 
@@ -30,10 +30,11 @@ while (circuits.length !== 1) {
 	const endCircuit = circuits[endIndex];
 
 	if (!startCircuit.includes(end)) {
-		result = start[0] * end[0];
+		a = start;
+		b = end;
 		startCircuit.push(...endCircuit);
 		circuits.splice(endIndex, 1);
 	}
 }
 
-console.log(result);
+console.log(boxes[a][0] * boxes[b][0]);
