@@ -163,3 +163,71 @@ export class TwoDimensionalMap<V> {
 		return this.map.size;
 	}
 }
+
+export class BinaryHeap<T> {
+	private readonly nodes: T[] = [];
+	constructor(
+		private readonly compareFn: (a: T, b: T) => number
+	) {}
+
+	public push(value: T): void {
+		this.nodes.push(value);
+		this.siftUp(this.nodes.length - 1);
+	}
+
+	private siftUp(index: number): void {
+		while (index > 0) {
+			const parent = index - 1 >>> 1;
+			if (this.compareFn(this.nodes[index], this.nodes[parent]) < 0) {
+				swap(this.nodes, index, parent);
+				index = parent;
+			} else {
+				break;
+			}
+		}
+	}
+
+	private siftDown(index: number): void {
+		while (true) {
+			const left = index * 2 + 1;
+			const right = index * 2 + 2;
+
+			let target = index;
+			if (left < this.nodes.length && this.compareFn(this.nodes[left], this.nodes[target]) < 0) {
+				target = left;
+			}
+
+			if (right < this.nodes.length && this.compareFn(this.nodes[right], this.nodes[target]) < 0) {
+				target = right;
+			}
+
+			if (target === index) {
+				break;
+			}
+
+			swap(this.nodes, index, target);
+			index = target;
+		}
+	}
+
+	public pop() {
+		if (this.nodes.length === 0) return undefined;
+		if (this.nodes.length === 1) return this.nodes.pop();
+		const root = this.nodes[0];
+		this.nodes[0] = this.nodes.pop()!;
+		this.siftDown(0);
+		return root;
+	}
+
+	public peek(): T | undefined {
+		return this.nodes[0];
+	}
+
+	public get size() {
+		return this.nodes.length;
+	}
+
+	public isEmpty() {
+		return this.nodes.length === 0;
+	}
+}
